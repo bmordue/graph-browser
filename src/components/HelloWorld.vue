@@ -75,7 +75,7 @@ export default {
   methods: {
     loadGraphData() {
       axios
-        .get("graph.json")
+        .get("/graph.json")
         .then(response => {
           this.graph = response.data;
         })
