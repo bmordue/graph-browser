@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "name": "Paris"
+    },
+    {
+      "id": 2,
+      "name": "Berlin"
+    },
+    {
+      "id": 3,
+      "name": "Rome"
+    },
+    {
+      "id": 4,
+      "name": "Madrid"
+    },
+    {
+      "id": 5,
+      "name": "Vienna"
+    },
+    {
+      "id": 6,
+      "name": "Amsterdam"
+    }
+  ],
+  "edges": [
+    {
+      "source": 1,
+      "target": 2,
+      "properties": {
+        "journeyTime": 4
+      }
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "properties": {
+        "journeyTime": 8
+      }
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "properties": {
+        "journeyTime": 10
+      }
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "properties": {
+        "journeyTime": 6
+      }
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "properties": {
+        "journeyTime": 12
+      }
+    },
+    {
+      "source": 4,
+      "target": 6,
+      "properties": {
+        "journeyTime": 5
+      }
+    }
+  ]
+}
