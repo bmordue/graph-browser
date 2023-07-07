@@ -2,25 +2,25 @@
   <div>
     <h2>Graph Browser</h2>
 
-    <List
+    <ConnectedList
       :nodes="level1Nodes"
       title="Level 1 Nodes"
       @node-selected="selectLevel1Node"
-    ></List>
+    ></ConnectedList>
 
     <div v-if="selectedLevel1Node">
-      <List
+      <ConnectedList
         :nodes="level2Nodes"
         title="Level 2 Nodes"
         @node-selected="selectLevel2Node"
-      ></List>
+      ></ConnectedList>
     </div>
 
     <div v-if="selectedLevel2Node">
-      <List
+      <ConnectedList
         :nodes="level3Nodes"
         title="Level 3 Nodes"
-      ></List>
+      ></ConnectedList>
     </div>
   </div>
 </template>
