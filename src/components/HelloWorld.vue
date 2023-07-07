@@ -5,18 +5,18 @@
     <ConnectedList
       :nodes="level1Nodes"
       title="Level 1 Nodes"
-      @node-selected="selectLevel1Node"
+      @node-selected="selectLevel2Node"
     ></ConnectedList>
 
-    <div v-if="selectedLevel1Node">
+    <div>
       <ConnectedList
         :nodes="level2Nodes"
         title="Level 2 Nodes"
-        @node-selected="selectLevel2Node"
+        @node-selected="selectLevel3Node"
       ></ConnectedList>
     </div>
 
-    <div v-if="selectedLevel2Node">
+    <div>
       <ConnectedList
         :nodes="level3Nodes"
         title="Level 3 Nodes"
@@ -77,6 +77,7 @@ export default {
   },
   created() {
     this.loadGraphData();
+    this.selectedLevel1Node = parseInt(this.startingNode);
   },
   methods: {
     loadGraphData() {
@@ -84,7 +85,6 @@ export default {
         .get("/graph.json")
         .then(response => {
           this.graph = response.data;
-          this.selectedLevel1Node = this.startingNode;
         })
         .catch(error => {
           console.error("Error loading graph data:", error);
