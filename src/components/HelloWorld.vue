@@ -33,6 +33,12 @@ export default {
   components: {
     ConnectedList
   },
+  props: {
+    startingNode: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       graph: null,
@@ -51,7 +57,7 @@ export default {
         .map(edge => this.graph.nodes.find(node => node.id === edge.target));
     },
     level2Nodes() {
-      if (!this.graph || !this.selectedLevel2Node) {
+      if (!this.graph || !this.selectedLevel1Node || !this.selectedLevel2Node) {
         return [];
       }
 
@@ -75,9 +81,10 @@ export default {
   methods: {
     loadGraphData() {
       axios
-        .get("/graph.json")
+        .get("graph.json")
         .then(response => {
           this.graph = response.data;
+          this.selectedLevel1Node = this.startingNode;
         })
         .catch(error => {
           console.error("Error loading graph data:", error);
@@ -89,6 +96,10 @@ export default {
     },
     selectLevel2Node(nodeId) {
       this.selectedLevel2Node = nodeId;
+    },
+    selectLevel3Node(nodeId) {
+      this.selectedLevel1Node = nodeId;
+      this.selectedLevel2Node = null;
     }
   }
 };
