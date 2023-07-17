@@ -23,6 +23,10 @@ export default {
     children: {
       type: Array,
       required: true
+    },
+    index: {
+      type: Number,
+      required: true
     }
   },
   methods: {

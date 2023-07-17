@@ -1,7 +1,9 @@
 <template>
   <div>
     <NodeHistory :nodes="nodeHistory"></NodeHistory>
-    <ConnectedList
+    
+    <ConnectedList v-for="n in 3"
+      :index="n"
       :children="getChildren"
       :root="getNode"
       @node-selected="selectNode"
@@ -26,12 +28,18 @@ export default {
     startingNode: {
       type: Number,
       required: true
-    }
+    },
+    containerCount: {
+      type: Number,
+      required: true
+    },
   },
   data() {
     return {
       graph: null,
       selectedNodeId: null,
+      selectedListIndex: null,
+      connectedLists: [],
       nodeHistory: []
     }
   },
