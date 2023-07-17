@@ -1,13 +1,11 @@
 <template>
   <div>
     <NodeHistory :nodes="nodeHistory"></NodeHistory>
-    
-    <ConnectedList v-for="n in 3"
-      :index="n"
-      :children="getChildren"
-      :root="getNode"
-      @node-selected="selectNode"
-    ></ConnectedList>
+
+    <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
+      :root="destList.root || {}" @node-selected="selectNode">
+    </ConnectedList>
+
     <NodeDetails :node="selectedNode"> </NodeDetails>
   </div>
 </template>
@@ -39,7 +37,7 @@ export default {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [],
+      connectedLists: [{}, {}, {}],
       nodeHistory: []
     }
   },
@@ -56,7 +54,6 @@ export default {
   },
   created() {
     this.loadGraphData()
-    this.selectedNodeId = this.startingNode
   },
   methods: {
     loadGraphData() {
@@ -64,6 +61,9 @@ export default {
         .get('/graph.json')
         .then((response) => {
           this.graph = response.data
+          this.selectedNodeId = this.startingNode
+          this.connectedLists[0].root = this.getNodeById(this.selectedNodeId)
+          this.connectedLists[0].children = this.childrenOf(this.selectedNodeId)
         })
         .catch((error) => {
           console.error('Error loading graph data:', error)
