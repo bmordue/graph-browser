@@ -23,15 +23,10 @@ export default {
     children: {
       type: Array,
       required: true
-    },
-    title: {
-      type: String,
-      required: true
     }
   },
   methods: {
     selectNode(nodeId) {
-      console.log(`${this.root}`)
       this.selectedId = nodeId;
       this.$emit('node-selected', nodeId);
     }
