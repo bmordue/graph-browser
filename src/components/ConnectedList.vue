@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3>{{ title }}</h3>
+    <h3>Routes from {{ root.name }}</h3>
     <ul>
-      <li v-for="node in nodes" :key="node.id" @click="selectNode(node.id)">
+      <li v-for="node in children" :key="node.id" @click="selectNode(node.id)" :class="node.id === this.selectedId ? 'selected' : ''">
         {{ node.name }}
       </li>
     </ul>
@@ -11,8 +11,16 @@
 
 <script>
 export default {
+  data() {
+    return {
+      selectedId: null
+    }
+  },
   props: {
-    nodes: {
+    root: {
+      type: Object
+    },
+    children: {
       type: Array,
       required: true
     },
@@ -23,8 +31,16 @@ export default {
   },
   methods: {
     selectNode(nodeId) {
+      console.log(`${this.root}`)
+      this.selectedId = nodeId;
       this.$emit('node-selected', nodeId);
     }
   }
 };
 </script>
+
+<style>
+.selected {
+  font-weight: bold
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import GraphBrowser from './components/GraphBrowser.vue'
 import TheWelcome from './components/TheWelcome.vue'
 </script>
 
@@ -8,7 +8,7 @@ import TheWelcome from './components/TheWelcome.vue'
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld startingNode="2" />
+      <GraphBrowser :startingNode="2" />
     </div>
   </header>
 

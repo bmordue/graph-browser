@@ -2,27 +2,33 @@
   "nodes": [
     {
       "id": 1,
-      "name": "Paris"
+      "name": "Paris",
+      "data": { "country": "France" }
     },
     {
       "id": 2,
-      "name": "Berlin"
+      "name": "Berlin",
+      "data": { "country": "Germany" }
     },
     {
       "id": 3,
-      "name": "Rome"
+      "name": "Rome",
+      "data": { "country": "Italy" }
     },
     {
       "id": 4,
-      "name": "Madrid"
+      "name": "Madrid",
+      "data": { "country": "Spain" }
     },
     {
       "id": 5,
-      "name": "Vienna"
+      "name": "Vienna",
+      "data": { "country": "Austria" }
     },
     {
       "id": 6,
-      "name": "Amsterdam"
+      "name": "Amsterdam",
+      "data": { "country": "The Netherlands" }
     }
   ],
   "edges": [
