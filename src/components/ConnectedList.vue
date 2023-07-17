@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Routes from {{ root.name }}</h3>
+    <h2>Routes from {{ root.name }}</h2>
     <ul>
       <li v-for="node in children" :key="node.id" @click="selectNode(node.id)" :class="node.id === this.selectedId ? 'selected' : ''">
         {{ node.name }}

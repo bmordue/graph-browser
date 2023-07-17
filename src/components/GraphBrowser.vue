@@ -3,10 +3,10 @@
     <h2>Graph Browser</h2>
     <NodeHistory :nodes="nodeHistory"></NodeHistory>
     <ConnectedList
-      :children="level1Nodes"
+      :children="getChildren"
       :title="titleForConnections"
       :root="getNode"
-      @node-selected="selectLevel2Node"
+      @node-selected="selectNode"
     ></ConnectedList>
     <!-- <ConnectedList
       :nodes="level2Nodes"
@@ -86,6 +86,9 @@ export default {
     },
     getNode() {
       return this.getNodeById(this.selectedNodeId) || { name: 'unknown' }
+    },
+    getChildren() {
+      return this.childrenOf(this.selectedNodeId)
     }
   },
   created() {
@@ -120,6 +123,13 @@ export default {
       this.selectedLevel1Node = this.selectedLevel2Node
       this.selectedLevel2Node = this.selectedLevel3Node
       this.selectedLevel3Node = nodeId
+    },
+    selectNode(nodeId) {
+      if (nodeId != this.selectedNodeId) {
+        this.nodeHistory.push(this.getNode)
+      }
+      this.selectedNodeId = nodeId
+
     },
     childrenOf(nodeId) {
       if (!this.graph) {
