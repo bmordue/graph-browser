@@ -37,7 +37,7 @@ export default {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}],
+      connectedLists: [{}, {}, {}, {}, {}],
       nodeHistory: []
     }
   },
@@ -72,7 +72,9 @@ export default {
     selectNode(nodeId, listIndex) {
       // set connected lists
       if (listIndex < this.connectedLists.length - 1) {
-        for (let i = listIndex + 1; i < this.connectedLists.length - 1; i++) {
+        console.log('no shift')
+        for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
+          console.log(`clear ${this.connectedLists[i].name}`)
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
@@ -81,7 +83,8 @@ export default {
         }
       } else {
         // shift everything left
-        for (let i = 0; i < this.connectedLists.length - 2; i++) {
+        console.log('shift left')
+        for (let i = 0; i < this.connectedLists.length - 1; i++) {
           this.connectedLists[i] = this.connectedLists[i + 1]
         }
 
