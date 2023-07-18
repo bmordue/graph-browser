@@ -2,7 +2,8 @@
   <div>
     <h2>Routes from {{ root.name }}</h2>
     <ul>
-      <li v-for="node in children" :key="node.id" @click="selectNode(node.id)" :class="node.id === this.selectedId ? 'selected' : ''">
+      <li v-for="node in children" :key="node.id" @click="selectNode(node.id)"
+        :class="node.id === this.selectedId ? 'selected' : ''">
         {{ node.name }}
       </li>
     </ul>
@@ -32,7 +33,7 @@ export default {
   methods: {
     selectNode(nodeId) {
       this.selectedId = nodeId;
-      this.$emit('node-selected', nodeId);
+      this.$emit('node-selected', nodeId, this.index);
     }
   }
 };

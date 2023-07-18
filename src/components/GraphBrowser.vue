@@ -69,12 +69,37 @@ export default {
           console.error('Error loading graph data:', error)
         })
     },
-    selectNode(nodeId) {
+    selectNode(nodeId, listIndex) {
+      // set connected lists
+      if (listIndex < this.connectedLists.length - 1) {
+        for (let i = listIndex + 1; i < this.connectedLists.length - 1; i++) {
+          this.connectedLists[i] = {};
+        }
+        this.connectedLists[listIndex + 1] = {
+          root: this.getNodeById(nodeId),
+          children: this.childrenOf(nodeId)
+        }
+      } else {
+        // shift everything left
+        for (let i = 0; i < this.connectedLists.length - 2; i++) {
+          this.connectedLists[i] = this.connectedLists[i + 1]
+        }
+
+        this.connectedLists[this.connectedLists.length - 1] = {
+          root: this.getNodeById(nodeId),
+          children: this.childrenOf(nodeId)
+        }
+
+      }
+
+      // roll back history
+      // this.nodeHistory = this.nodeHistory.slice(0, listIndex + 1);
+      // logic is wrong
+
       if (nodeId != this.selectedNodeId) {
         this.nodeHistory.push(this.getNode)
       }
       this.selectedNodeId = nodeId
-
     },
     childrenOf(nodeId) {
       if (!this.graph) {
