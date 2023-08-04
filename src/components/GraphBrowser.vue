@@ -58,7 +58,7 @@ export default {
   methods: {
     loadGraphData() {
       axios
-        .get('/graph.json')
+        .get('https://raw.githubusercontent.com/bmordue/graph-browser/main/public/graph.json')
         .then((response) => {
           this.graph = response.data
           this.selectedNodeId = this.startingNode
