@@ -22,7 +22,7 @@ describe('ConnectedList', () => {
     expect(wrapper.text()).toContain('No items available');
   });
 
-  it('emits an event when an item is clicked', async () => {
+it('emits an event when an item is clicked', async () => {
     const items = ['Item 1', 'Item 2', 'Item 3'];
     const wrapper = mount(ConnectedList, {
       props: {
@@ -31,7 +31,8 @@ describe('ConnectedList', () => {
     });
     const itemElements = wrapper.findAll('.item');
     await itemElements[0].trigger('click');
-    expect(wrapper.emitted().itemClicked[0][0]).toBe(items[0]);
+    expect(wrapper.emitted().itemClicked).toBeTruthy();
+    expect(wrapper.emitted().itemClicked[0]).toEqual([items[0]]);
   });
 });
 
