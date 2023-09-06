@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Routes from {{ root.name }}</h2>
+    <h2><span v-if="root.name">Routes from {{ root.name }}</span><span v-else>[empty]</span></h2>
     <ul>
       <li v-for="node in children" :key="node.id" @click="selectNode(node.id)"
         :class="node.id === this.selectedId ? 'selected' : ''">
@@ -19,7 +19,8 @@ export default {
   },
   props: {
     root: {
-      type: Object
+      type: Object,
+      required: true
     },
     children: {
       type: Array,

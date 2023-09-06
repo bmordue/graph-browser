@@ -33,11 +33,12 @@ export default {
     },
   },
   data() {
+    // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
     return {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}, {}, {}],
+      connectedLists: [{}, {}, {}],
       nodeHistory: []
     }
   },
@@ -58,7 +59,7 @@ export default {
   methods: {
     loadGraphData() {
       axios
-        .get('/graph.json')
+        .get('./graph.json')
         .then((response) => {
           this.graph = response.data
           this.selectedNodeId = this.startingNode
