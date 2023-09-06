@@ -19,7 +19,8 @@ export default {
   },
   props: {
     root: {
-      type: Object
+      type: Object,
+      required: true
     },
     children: {
       type: Array,
