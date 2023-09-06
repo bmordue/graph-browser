@@ -33,11 +33,12 @@ export default {
     },
   },
   data() {
+    // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
     return {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}, {}, {}],
+      connectedLists: [{}, {}, {}],
       nodeHistory: []
     }
   },
