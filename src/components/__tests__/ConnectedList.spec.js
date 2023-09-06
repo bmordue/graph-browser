@@ -34,3 +34,18 @@ describe('ConnectedList', () => {
     expect(wrapper.emitted().itemClicked[0][0]).toBe(items[0]);
   });
 });
+
+
+describe('ConnectedList', () => {
+  it('renders properly', () => {
+    const listName = 'test';
+    const wrapper = mount(ConnectedList, {
+      props: {
+        root: { name: listName },
+        children: [],
+        index: 0
+      }
+    })
+    expect(wrapper.text()).toContain(`Routes from ${listName}`)
+  })
+})
