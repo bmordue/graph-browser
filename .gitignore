@@ -27,3 +27,7 @@ coverage
 *.sln
 *.sw?
 .env
+
+# stryker temp files
+.stryker-tmp
+*~
