@@ -97,12 +97,10 @@ export default {
       }
 
       // roll back history
-      // this.nodeHistory = this.nodeHistory.slice(0, listIndex + 1);
-      // logic is wrong
-
-      if (nodeId != this.selectedNodeId) {
-        this.nodeHistory.push(this.getNode)
+      if (listIndex < this.nodeHistory.length) {
+        this.nodeHistory = this.nodeHistory.slice(0, listIndex);
       }
+      this.nodeHistory.push(this.getNodeById(nodeId));
       this.selectedNodeId = nodeId
     },
     childrenOf(nodeId) {
