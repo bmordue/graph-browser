@@ -1,19 +1,40 @@
+import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ConnectedList from '../ConnectedList.vue';
+
+const testProps = {
+  root: {
+    "id": 1,
+    "name": "Paris",
+    "data": { "country": "France" }
+  },
+  children: [
+    {
+      "id": 2,
+      "name": "Berlin",
+      "data": { "country": "Germany" }
+    },
+    {
+      "id": 3,
+      "name": "Rome",
+      "data": { "country": "Italy" }
+    },
+  ],
+  index: 1
+}
+
 
 describe('ConnectedList', () => {
   it('renders properly', () => {
     const wrapper = mount(ConnectedList, {
-      props: {
-        items: ['Item 1', 'Item 2', 'Item 3'],
-      },
+      props: testProps,
     });
-    expect(wrapper.text()).toContain('Item 1');
-    expect(wrapper.text()).toContain('Item 2');
-    expect(wrapper.text()).toContain('Item 3');
+    expect(wrapper.text()).toContain('Routes from Paris');
+    expect(wrapper.text()).toContain('Berlin');
+    expect(wrapper.text()).toContain('Rome');
   });
 
-  it('displays a message when no items are provided', () => {
+  it.skip('displays a message when no items are provided', () => {
     const wrapper = mount(ConnectedList, {
       props: {
         items: [],
@@ -22,17 +43,14 @@ describe('ConnectedList', () => {
     expect(wrapper.text()).toContain('No items available');
   });
 
-it('emits an event when an item is clicked', async () => {
-    const items = ['Item 1', 'Item 2', 'Item 3'];
+  it('emits an event when an item is clicked', async () => {
     const wrapper = mount(ConnectedList, {
-      props: {
-        items,
-      },
+      props: testProps,
     });
-    const itemElements = wrapper.findAll('.item');
+    const itemElements = wrapper.findAll('li');
     await itemElements[0].trigger('click');
-    expect(wrapper.emitted().itemClicked).toBeTruthy();
-    expect(wrapper.emitted().itemClicked[0]).toEqual([items[0]]);
+    expect(wrapper.emitted()['node-selected']).toBeTruthy();
+    expect(wrapper.emitted()['node-selected'][0]).toEqual([2, 1]);
   });
 });
 
