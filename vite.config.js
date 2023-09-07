@@ -13,5 +13,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/graph-browser/'
+  base: '/graph-browser/',
+  test: {
+    coverage: {
+      provider: 'istanbul'
+    }
+  }
 })
