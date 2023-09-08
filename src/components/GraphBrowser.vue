@@ -1,13 +1,11 @@
 <template>
   <div>
     <NodeHistory :nodes="nodeHistory"></NodeHistory>
-    
-    <ConnectedList v-for="n in 3"
-      :index="n"
-      :children="getChildren"
-      :root="getNode"
-      @node-selected="selectNode"
-    ></ConnectedList>
+
+    <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
+      :root="destList.root || {}" @node-selected="selectNode">
+    </ConnectedList>
+
     <NodeDetails :node="selectedNode"> </NodeDetails>
   </div>
 </template>
@@ -35,11 +33,12 @@ export default {
     },
   },
   data() {
+    // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
     return {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [],
+      connectedLists: [{}, {}, {}],
       nodeHistory: []
     }
   },
@@ -56,25 +55,55 @@ export default {
   },
   created() {
     this.loadGraphData()
-    this.selectedNodeId = this.startingNode
   },
   methods: {
     loadGraphData() {
       axios
-        .get('/graph.json')
+        .get('./graph.json')
         .then((response) => {
           this.graph = response.data
+          this.selectedNodeId = this.startingNode
+          this.connectedLists[0].root = this.getNodeById(this.selectedNodeId)
+          this.connectedLists[0].children = this.childrenOf(this.selectedNodeId)
         })
         .catch((error) => {
           console.error('Error loading graph data:', error)
         })
     },
-    selectNode(nodeId) {
+    selectNode(nodeId, listIndex) {
+      // set connected lists
+      if (listIndex < this.connectedLists.length - 1) {
+        console.log('no shift')
+        for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
+          console.log(`clear ${this.connectedLists[i].name}`)
+          this.connectedLists[i] = {};
+        }
+        this.connectedLists[listIndex + 1] = {
+          root: this.getNodeById(nodeId),
+          children: this.childrenOf(nodeId)
+        }
+      } else {
+        // shift everything left
+        console.log('shift left')
+        for (let i = 0; i < this.connectedLists.length - 1; i++) {
+          this.connectedLists[i] = this.connectedLists[i + 1]
+        }
+
+        this.connectedLists[this.connectedLists.length - 1] = {
+          root: this.getNodeById(nodeId),
+          children: this.childrenOf(nodeId)
+        }
+
+      }
+
+      // roll back history
+      // this.nodeHistory = this.nodeHistory.slice(0, listIndex + 1);
+      // logic is wrong
+
       if (nodeId != this.selectedNodeId) {
         this.nodeHistory.push(this.getNode)
       }
       this.selectedNodeId = nodeId
-
     },
     childrenOf(nodeId) {
       if (!this.graph) {
