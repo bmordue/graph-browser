@@ -2,7 +2,7 @@
   <div class="grid-container">
     <NodeHistory :nodes="nodeHistory" style="grid-column: 1;"></NodeHistory>
     <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
-:root="destList.root || {}" @node-selected="selectNode" style="grid-column: 2;">
+    :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
     </ConnectedList>
 <NodeDetails :node="selectedNode" style="grid-column: 3;"> </NodeDetails>
   </div>
@@ -124,7 +124,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  :style="{ gridTemplateColumns: `repeat(${connectedLists.length + 2}, 1fr)` }";
 }
 
 @media (max-width: 600px) {
