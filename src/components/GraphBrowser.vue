@@ -4,7 +4,7 @@
     <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
       :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
     </ConnectedList>
-    <NodeDetails :node="selectedNode" style="grid-column: 5;"> </NodeDetails>
+    <NodeDetails :node="selectedNode" :style="{ gridColumn: connectedLists.length + 2 }"> </NodeDetails>
   </div>
 </template>
 
