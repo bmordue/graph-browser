@@ -23,14 +23,18 @@ describe('GraphBrowser', () => {
     expect(wrapper.text()).toContain('[expected text here]');
   })
 
-  it('updates nodeHistory correctly when a node in the highest index list is clicked', () => {
-    // mount GraphBrowser
+  it('updates nodeHistory correctly when a node in the highest index list is clicked', async () => {
+    const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
+    await wrapper.vm.$nextTick();
 
-    // query the DOM to find the third <ul> element
+    const highestIndexList = wrapper.findAll('ul').at(2);
+    const nodeToClick = highestIndexList.find('li');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
 
-    // trigger a click event on any <li> element in the third <ul>
-
-    // verify that the contents of the history and details components have changed
+    const { nodeHistory, details } = wrapper.vm.$data;
+    expect(nodeHistory.someHistoryProperty).toEqual('[expected history here]');
+    expect(details.someDetailsProperty).toEqual('[expected details here]');
   })
 
   it('updates nodeHistory correctly when a node in a lower index list is clicked', () => {
