@@ -12,7 +12,8 @@ describe('GraphBrowser', () => {
     wrapper.vm.fetchGraphData = () => { return Promise.resolve({data: testGraph}) } 
     wrapper.vm.loadGraphData()
 
-    // expect the wrapper to now contain the data from the graph.fixture.json file
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$data.graph).toEqual(testGraph);
   })
 
   it('renders properly', () => {
