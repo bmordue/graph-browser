@@ -56,8 +56,7 @@ export default {
   },
   methods: {
     loadGraphData() {
-      axios
-        .get('./graph.json')
+      this.fetchGraphData()
         .then((response) => {
           this.graph = response.data
           this.selectedNodeId = this.startingNode
@@ -67,6 +66,9 @@ export default {
         .catch((error) => {
           console.error('Error loading graph data:', error)
         })
+    },
+    fetchGraphData() {
+      return axios.get('./graph.json')
     },
     selectNode(nodeId, listIndex) {
       // set connected lists
