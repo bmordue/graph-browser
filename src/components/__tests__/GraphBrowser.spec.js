@@ -37,8 +37,18 @@ describe('GraphBrowser', () => {
     expect(details.someDetailsProperty).toEqual('[expected details here]');
   })
 
-  it('updates nodeHistory correctly when a node in a lower index list is clicked', () => {
-    // steps similar to above, but for the first ul element
+  it('updates nodeHistory correctly when a node in a lower index list is clicked', async () => {
+    const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
+    await wrapper.vm.$nextTick();
+
+    const lowerIndexList = wrapper.findAll('ul').at(0);
+    const nodeToClick = lowerIndexList.find('li');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    const { nodeHistory, details } = wrapper.vm.$data;
+    expect(nodeHistory.someHistoryProperty).toEqual('[expected lower history here]');
+    expect(details.someDetailsProperty).toEqual('[expected lower details here]');
   })
 
   it('updates nodeHistory correctly when the same node is clicked multiple times', () => {
