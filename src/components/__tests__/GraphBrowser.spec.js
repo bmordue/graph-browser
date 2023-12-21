@@ -18,9 +18,9 @@ describe('GraphBrowser', () => {
 
   it('renders properly', () => {
     const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
-    wrapper.vm.fetchGraphData = () => { return {data: testGraph} } 
-
-    expect(wrapper.text()).toContain('History[empty][empty][empty]Details')
+    wrapper.vm.fetchGraphData = () => Promise.resolve({data: testGraph});
+    await wrapper.vm.$nextTick();
+    expect(wrapper.text()).toContain('[expected text here]');
   })
 
   it('updates nodeHistory correctly when a node in the highest index list is clicked', () => {
