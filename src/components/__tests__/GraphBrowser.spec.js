@@ -16,7 +16,7 @@ describe('GraphBrowser', () => {
     expect(wrapper.vm.$data.graph).toEqual(testGraph);
   })
 
-  it('renders properly', () => {
+  it('renders properly', async () => {
     const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
     wrapper.vm.fetchGraphData = () => Promise.resolve({data: testGraph});
     await wrapper.vm.$nextTick();
