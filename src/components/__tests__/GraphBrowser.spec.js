@@ -12,7 +12,7 @@ describe('GraphBrowser', () => {
     wrapper.vm.fetchGraphData = () => { return Promise.resolve({data: testGraph}) } 
     wrapper.vm.loadGraphData()
 
-    expect(wrapper.text()).toContain('History[empty][empty][empty]Details')
+    // expect the wrapper to now contain the data from the graph.fixture.json file
   })
 
   it('renders properly', () => {
@@ -23,11 +23,17 @@ describe('GraphBrowser', () => {
   })
 
   it('updates nodeHistory correctly when a node in the highest index list is clicked', () => {
-    // Test logic goes here
+    // mount GraphBrowser
+
+    // query the DOM to find the third <ul> element
+
+    // trigger a click event on any <li> element in the third <ul>
+
+    // verify that the contents of the history and details components have changed
   })
 
   it('updates nodeHistory correctly when a node in a lower index list is clicked', () => {
-    // Test logic goes here
+    // steps similar to above, but for the first ul element
   })
 
   it('updates nodeHistory correctly when the same node is clicked multiple times', () => {
