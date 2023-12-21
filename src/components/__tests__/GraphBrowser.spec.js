@@ -51,7 +51,17 @@ describe('GraphBrowser', () => {
     expect(details.someDetailsProperty).toEqual('[expected lower details here]');
   })
 
-  it('updates nodeHistory correctly when the same node is clicked multiple times', () => {
-    // Test logic goes here
+  it('updates nodeHistory correctly when the same node is clicked multiple times', async () => {
+    const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
+    await wrapper.vm.$nextTick();
+
+    const nodeToClick = wrapper.findAll('.node').at(0); // assuming .node is the class for nodes
+    await nodeToClick.trigger('click');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    const { nodeHistory, details } = wrapper.vm.$data;
+    expect(nodeHistory.someHistoryProperty).toEqual('[expected repeated history here]');
+    expect(details.someDetailsProperty).toEqual('[expected repeated details here]');
   })
 })
