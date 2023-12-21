@@ -18,5 +18,8 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul'
     }
+  },
+  build: {
+    outDir: 'docs'
   }
 })
