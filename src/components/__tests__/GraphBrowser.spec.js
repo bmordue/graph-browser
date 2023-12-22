@@ -25,14 +25,16 @@ describe('GraphBrowser', () => {
   })
 
   it('updates nodeHistory correctly when a node in the highest index list is clicked', async () => {
+    await wrapper.findAll('ul').at(0).find('li').trigger('click')
+    await wrapper.findAll('ul').at(1).find('li').trigger('click')
+
     const highestIndexList = wrapper.findAll('ul').at(2);
     const nodeToClick = highestIndexList.find('li');
     await nodeToClick.trigger('click');
     await wrapper.vm.$nextTick();
 
-    const { nodeHistory, details } = wrapper.vm.$data;
-    expect(nodeHistory.someHistoryProperty).toEqual('[expected history here]');
-    expect(details.someDetailsProperty).toEqual('[expected details here]');
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([1]);
   })
 
   it('updates nodeHistory correctly when a node in a lower index list is clicked', async () => {
@@ -41,9 +43,9 @@ describe('GraphBrowser', () => {
     await nodeToClick.trigger('click');
     await wrapper.vm.$nextTick();
 
-    const { nodeHistory, details } = wrapper.vm.$data;
-    expect(nodeHistory.someHistoryProperty).toEqual('[expected lower history here]');
-    expect(details.someDetailsProperty).toEqual('[expected lower details here]');
+
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([1]);
   })
 
   it('updates nodeHistory correctly when the same node is clicked multiple times', async () => {
@@ -52,8 +54,8 @@ describe('GraphBrowser', () => {
     await nodeToClick.trigger('click');
     await wrapper.vm.$nextTick();
 
-    const { nodeHistory, details } = wrapper.vm.$data;
-    expect(nodeHistory.someHistoryProperty).toEqual('[expected repeated history here]');
-    expect(details.someDetailsProperty).toEqual('[expected repeated details here]');
+
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([1]);
   })
 })
