@@ -7,7 +7,7 @@ import testGraph from './graph.fixture.json'
 
 describe('GraphBrowser', () => {
 
-  it('loads graph data', () => {
+  it('loads graph data', async () => {
     const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
     wrapper.vm.fetchGraphData = () => { return Promise.resolve({data: testGraph}) } 
     wrapper.vm.loadGraphData()
