@@ -10,7 +10,7 @@ describe('GraphBrowser', () => {
 
   beforeEach(async () => {
     wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
-    wrapper.vm.fetchGraphData = () => Promise.resolve({data: testGraph});
+    wrapper.vm.fetchGraphData = () => Promise.resolve({ data: testGraph });
     await wrapper.vm.$nextTick();
     wrapper.vm.loadGraphData()
     await wrapper.vm.$nextTick();
@@ -21,7 +21,7 @@ describe('GraphBrowser', () => {
   })
 
   it('renders properly', async () => {
-    expect(wrapper.text()).toContain('[expected text here]');
+    expect(wrapper.text()).toContain('HistoryRoutes from ParisBerlinRome[empty]');
   })
 
   it('updates nodeHistory correctly when a node in the highest index list is clicked', async () => {
@@ -34,7 +34,27 @@ describe('GraphBrowser', () => {
     await wrapper.vm.$nextTick();
 
     const { nodeHistory } = wrapper.vm.$data;
-    expect(nodeHistory).toEqual([1]);
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },
+    {
+      "data": {
+        "country": "France",
+      },
+      "id": 1,
+      "name": "Paris",
+    },
+    {
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    }]);
   })
 
   it('updates nodeHistory correctly when a node in a lower index list is clicked', async () => {
@@ -45,17 +65,33 @@ describe('GraphBrowser', () => {
 
 
     const { nodeHistory } = wrapper.vm.$data;
-    expect(nodeHistory).toEqual([1]);
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },]);
   })
 
   it('updates nodeHistory correctly when the same node is clicked multiple times', async () => {
-    const nodeToClick = wrapper.findAll('li').at(2);
+    const lowerIndexList = wrapper.findAll('ul').at(0);
+    const nodeToClick = lowerIndexList.find('li');
     await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    // second click
     await nodeToClick.trigger('click');
     await wrapper.vm.$nextTick();
 
 
     const { nodeHistory } = wrapper.vm.$data;
-    expect(nodeHistory).toEqual([1]);
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },]);
   })
 })
