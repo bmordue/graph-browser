@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import GraphBrowser from '../GraphBrowser.vue'
 
 import { mount } from '@vue/test-utils'
@@ -6,37 +6,92 @@ import { mount } from '@vue/test-utils'
 import testGraph from './graph.fixture.json'
 
 describe('GraphBrowser', () => {
+  let wrapper
 
-  it('loads graph data', () => {
-    const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
-    wrapper.vm.fetchGraphData = () => { return Promise.resolve({data: testGraph}) } 
+  beforeEach(async () => {
+    wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
+    wrapper.vm.fetchGraphData = () => Promise.resolve({ data: testGraph });
+    await wrapper.vm.$nextTick();
     wrapper.vm.loadGraphData()
-
-    // expect the wrapper to now contain the data from the graph.fixture.json file
+    await wrapper.vm.$nextTick();
   })
 
-  it('renders properly', () => {
-    const wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
-    wrapper.vm.fetchGraphData = () => { return {data: testGraph} } 
-
-    expect(wrapper.text()).toContain('History[empty][empty][empty]Details')
+  it('loads graph data', async () => {
+    expect(wrapper.vm.$data.graph).toEqual(testGraph);
   })
 
-  it('updates nodeHistory correctly when a node in the highest index list is clicked', () => {
-    // mount GraphBrowser
-
-    // query the DOM to find the third <ul> element
-
-    // trigger a click event on any <li> element in the third <ul>
-
-    // verify that the contents of the history and details components have changed
+  it('renders properly', async () => {
+    expect(wrapper.text()).toContain('HistoryRoutes from ParisBerlinRome[empty]');
   })
 
-  it('updates nodeHistory correctly when a node in a lower index list is clicked', () => {
-    // steps similar to above, but for the first ul element
+  it('updates nodeHistory correctly when a node in the highest index list is clicked', async () => {
+    await wrapper.findAll('ul').at(0).find('li').trigger('click')
+    await wrapper.findAll('ul').at(1).find('li').trigger('click')
+
+    const highestIndexList = wrapper.findAll('ul').at(2);
+    const nodeToClick = highestIndexList.find('li');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },
+    {
+      "data": {
+        "country": "France",
+      },
+      "id": 1,
+      "name": "Paris",
+    },
+    {
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    }]);
   })
 
-  it('updates nodeHistory correctly when the same node is clicked multiple times', () => {
-    // Test logic goes here
+  it('updates nodeHistory correctly when a node in a lower index list is clicked', async () => {
+    const lowerIndexList = wrapper.findAll('ul').at(0);
+    const nodeToClick = lowerIndexList.find('li');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },]);
+  })
+
+  it('updates nodeHistory correctly when the same node is clicked multiple times', async () => {
+    const lowerIndexList = wrapper.findAll('ul').at(0);
+    const nodeToClick = lowerIndexList.find('li');
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+    // second click
+    await nodeToClick.trigger('click');
+    await wrapper.vm.$nextTick();
+
+
+    const { nodeHistory } = wrapper.vm.$data;
+    expect(nodeHistory).toEqual([{
+      "data": {
+        "country": "Germany",
+      },
+      "id": 2,
+      "name": "Berlin",
+    },]);
   })
 })
