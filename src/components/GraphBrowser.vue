@@ -96,11 +96,9 @@ export default {
 
       }
 
-      // roll back history
-      if (listIndex < this.nodeHistory.length) {
-        this.nodeHistory = this.nodeHistory.slice(0, listIndex);
+      if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
+        this.nodeHistory.push(this.getNodeById(nodeId));
       }
-      this.nodeHistory.push(this.getNodeById(nodeId));
       this.selectedNodeId = nodeId
     },
     childrenOf(nodeId) {
