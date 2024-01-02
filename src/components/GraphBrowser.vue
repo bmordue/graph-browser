@@ -96,7 +96,9 @@ export default {
 
       }
 
-      this.nodeHistory.push(this.getNodeById(nodeId));
+      if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
+        this.nodeHistory.push(this.getNodeById(nodeId));
+      }
       this.selectedNodeId = nodeId
     },
     childrenOf(nodeId) {
