@@ -28,3 +28,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run test:unit
+    - name: Run Stryker.js mutation testing
+      run: npx stryker run
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
