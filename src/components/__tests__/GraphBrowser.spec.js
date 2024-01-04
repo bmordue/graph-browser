@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, jest } from 'vitest'
+import { mountComponent } from '@vue/test-utils'
 import GraphBrowser from '../GraphBrowser.vue'
 
-import { mount } from '@vue/test-utils'
-
-import testGraph from './graph.fixture.json'
+const testGraph = require('./graph.fixture.json')
 
 describe('GraphBrowser', () => {
   let wrapper
@@ -12,6 +11,11 @@ describe('GraphBrowser', () => {
     // Adding new test cases for various numbers of ConnectedList components
     const testContainerCounts = [1, 2, 3, 4, 5];
     testContainerCounts.forEach(containerCount => {
+      wrapper = mountComponent(GraphBrowser, { props: { startingNode: 1, containerCount } });
+      wrapper.vm.fetchGraphData = jest.fn().mockResolvedValue({ data: testGraph });
+      await wrapper.vm.$nextTick();
+      wrapper.vm.loadGraphData();
+      await wrapper.vm.$nextTick();
       describe(`with ${containerCount} ConnectedList components`, () => {
         beforeEach(async () => {
           wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount } })
