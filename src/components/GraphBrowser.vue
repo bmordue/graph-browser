@@ -40,7 +40,7 @@ export default {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}],
+      connectedLists: Array.from({ length: this.listCount }, () => ({})),
       nodeHistory: []
     }
   },
