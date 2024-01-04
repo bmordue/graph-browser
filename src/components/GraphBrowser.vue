@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;" @history-item-selected="selectHistoryItem"  ></NodeHistory>
+    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;" @history-item-selected="selectHistoryItem"></NodeHistory>
     <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
       :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
     </ConnectedList>
@@ -83,6 +83,7 @@ export default {
         }
 
         this.connectedLists[this.connectedLists.length - 1] = {
+          // TODO: combine following two lines into a single "dataService.getNodeAndChildren(nodeId) call"
           root: this.dataService.getNodeById(nodeId),
           children: this.dataService.childrenOf(nodeId)
         }
@@ -94,18 +95,31 @@ export default {
       this.selectedNodeId = nodeId
     },
 
-    selectHistoryItem: (nodeId, index) => {
+    selectHistoryItem(nodeId, index) {
       if (index == this.nodeHistory.length - 1) {
         return;
       }
 
-      this.nodeHistory = this.nodeHistory.slice(0, index)
-      this.selectedNodeId = nodeId;
-      
-      if (this.nodeHistory.length > this.containerCount) {
-      
+      this.nodeHistory = this.nodeHistory.slice(0, index + 1)
+
+      let offset = this.nodeHistory.length - this.containerCount
+      if (offset < 0) {
+        offset = 0
       }
-  
+
+      for (let i = 0; i < this.containerCount; i++) {
+        if (this.nodeHistory.length > i + offset) {
+          this.connectedLists[i] = {
+            root: this.nodeHistory[i + offset],
+            children: this.dataService.childrenOf(this.nodeHistory[i + offset].id)
+          }
+        } else {
+          this.connectedLists[i] = {}
+        }
+      }
+      this.selectedNodeId = nodeId
+
+
     }
 
   }
