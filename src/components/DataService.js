@@ -9,12 +9,6 @@ export default class DataService {
     }
   }
 
-  // TODO: deprecate and remove this
-  async fetchGraphData() {
-    await this.init()
-    return Promise.resolve({ data: this.graph })
-  }
-
   childrenOf(nodeId) {
     if (!this.graph) {
       return []
