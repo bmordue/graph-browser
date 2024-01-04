@@ -31,8 +31,6 @@ export default {
     },
   },
   data() {
-    const lists = new Array(this.containerCount);
-    lists.forEach((_el, i) => { lists[i] = {}; })
     return {
       selectedNodeId: null,
       selectedListIndex: null,
