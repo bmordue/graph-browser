@@ -129,7 +129,7 @@ export default {
 
 @media (max-width: 600px) {
   .grid-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 150px;
   }
 }
 </style>
