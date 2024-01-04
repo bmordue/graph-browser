@@ -77,9 +77,7 @@ export default {
     selectNode(nodeId, listIndex) {
       // set connected lists
       if (listIndex < this.connectedLists.length - 1) {
-        console.log('no shift')
         for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
-          console.log(`clear ${this.connectedLists[i].name}`)
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
@@ -88,16 +86,14 @@ export default {
         }
       } else {
         // shift everything left
-        console.log('shift left')
-        for (let i = 0; i < this.connectedLists.length - 1; i++) {
-          this.connectedLists[i] = this.connectedLists[i + 1]
+        for (let i = 0; i < listIndex; i++) {
+          this.connectedLists[i] = this.connectedLists[i + 1];
         }
 
-        this.connectedLists[this.connectedLists.length - 1] = {
+        this.connectedLists[listIndex] = {
           root: this.getNodeById(nodeId),
           children: this.childrenOf(nodeId)
-        }
-
+        };
       }
 
       if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
