@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;"></NodeHistory>
+    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;" @history-item-selected="selectHistoryItem"  ></NodeHistory>
     <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
       :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
     </ConnectedList>
@@ -92,6 +92,20 @@ export default {
         this.nodeHistory.push(this.dataService.getNodeById(nodeId));
       }
       this.selectedNodeId = nodeId
+    },
+
+    selectHistoryItem: (nodeId, index) => {
+      if (index == this.nodeHistory.length - 1) {
+        return;
+      }
+
+      this.nodeHistory = this.nodeHistory.slice(0, index)
+      this.selectedNodeId = nodeId;
+      
+      if (this.nodeHistory.length > this.containerCount) {
+      
+      }
+  
     }
 
   }
