@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;"></NodeHistory>
+    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;" @history-item-selected="selectHistoryItem"></NodeHistory>
     <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
       :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
     </ConnectedList>
@@ -66,9 +66,7 @@ export default {
     selectNode(nodeId, listIndex) {
       // set connected lists
       if (listIndex < this.connectedLists.length - 1) {
-        console.log('no shift')
         for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
-          console.log(`clear ${this.connectedLists[i].name}`)
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
@@ -77,7 +75,6 @@ export default {
         }
       } else {
         // shift everything left
-        console.log('shift left')
         for (let i = 0; i < this.connectedLists.length - 1; i++) {
           this.connectedLists[i] = this.connectedLists[i + 1]
         }
@@ -91,6 +88,32 @@ export default {
       if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
         this.nodeHistory.push(this.dataService.getNodeById(nodeId));
       }
+      this.selectedNodeId = nodeId
+    },
+
+    selectHistoryItem(nodeId, index) {
+      if (index == this.nodeHistory.length - 1) {
+        return;
+      }
+
+      this.nodeHistory = this.nodeHistory.slice(0, index + 1)
+
+      let offset = this.nodeHistory.length - this.containerCount
+      if (offset < 0) {
+        offset = 0
+      }
+
+      for (let i = 0; i < this.containerCount; i++) {
+        if (this.nodeHistory.length > i + offset) {
+          this.connectedLists[i] = {
+            root: this.nodeHistory[i + offset],
+            children: this.dataService.childrenOf(this.nodeHistory[i + offset].id)
+          }
+        } else {
+          this.connectedLists[i] = {}
+        }
+      }
+
       this.selectedNodeId = nodeId
     }
 
