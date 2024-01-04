@@ -124,7 +124,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  :style="{ gridTemplateColumns: `repeat(${connectedLists.length + 2}, 1fr)` }";
+  :style="{ gridTemplateColumns: `repeat(${connectedLists.length + 2}, 150px)` }";
 }
 
 @media (max-width: 600px) {
