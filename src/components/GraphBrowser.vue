@@ -31,13 +31,15 @@ export default {
     },
   },
   data() {
+    const lists = new Array(this.containerCount);
+    lists.forEach((el, i) => { lists[i] = {}; })
     return {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}],//new Array(this.containerCount).fill({}),
+      connectedLists: [{},{},{}],
       nodeHistory: [],
-      dataService: DataService
+      dataService: new DataService()
     }
   },
   computed: {
