@@ -34,7 +34,7 @@ export default {
     return {
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}],
+      connectedLists: Array.from({ length: this.containerCount }, () => ({})),
       nodeHistory: [],
       dataService: new DataService()
     }
