@@ -29,6 +29,10 @@ export default {
       type: Number,
       required: true
     },
+    listCount: {
+      type: Number,
+      required: true
+    },
   },
   data() {
     // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
