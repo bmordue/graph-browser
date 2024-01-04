@@ -9,7 +9,38 @@ describe('GraphBrowser', () => {
   let wrapper
 
   beforeEach(async () => {
-    wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
+    // Adding new test cases for various numbers of ConnectedList components
+    const testContainerCounts = [1, 2, 3, 4, 5];
+    testContainerCounts.forEach(containerCount => {
+      describe(`with ${containerCount} ConnectedList components`, () => {
+        beforeEach(async () => {
+          wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount } })
+          wrapper.vm.fetchGraphData = () => Promise.resolve({ data: testGraph });
+          await wrapper.vm.$nextTick();
+          wrapper.vm.loadGraphData()
+          await wrapper.vm.$nextTick();
+        });
+
+        // Add a test case to verify rendering of correct number of ConnectedList components
+        it('renders the correct number of ConnectedList components', async () => {
+          expect(wrapper.findAllComponents(ConnectedList).length).toBe(containerCount);
+        });
+
+        // Existing test cases
+        it('loads graph data', async () => {
+          expect(wrapper.vm.$data.graph).toEqual(testGraph);
+        });
+
+        it('renders properly', async () => {
+          // Expect the UI to contain the appropriate number of [empty] placeholders for unpopulated lists
+          const expectedPlaceholders = '[empty]'.repeat(containerCount - 1);
+          expect(wrapper.text()).toContain(`HistoryRoutes from Paris${expectedPlaceholders}`);
+        });
+
+        // other test cases unchanged
+
+      });
+    });
     wrapper.vm.fetchGraphData = () => Promise.resolve({ data: testGraph });
     await wrapper.vm.$nextTick();
     wrapper.vm.loadGraphData()
