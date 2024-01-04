@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import DataService from './DataService'
 import ConnectedList from './ConnectedList.vue'
 import NodeDetails from './NodeDetails.vue'
 import NodeHistory from './NodeHistory.vue'
@@ -31,44 +31,37 @@ export default {
     },
   },
   data() {
-    // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
     return {
-      graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
       connectedLists: [{}, {}, {}],
-      nodeHistory: []
+      nodeHistory: [],
+      dataService: new DataService()
     }
   },
   computed: {
     selectedNode() {
-      return this.getNodeById(this.selectedNodeId)
+      return this.dataService.getNodeById(this.selectedNodeId)
     },
     getNode() {
-      return this.getNodeById(this.selectedNodeId) || { name: 'unknown' }
+      return this.dataService.getNodeById(this.selectedNodeId) || { name: 'unknown' }
     },
     getChildren() {
-      return this.childrenOf(this.selectedNodeId)
+      return this.dataService.childrenOf(this.selectedNodeId)
     }
   },
   created() {
-    this.loadGraphData()
+    this.initialise()
   },
   methods: {
-    loadGraphData() {
-      this.fetchGraphData()
-        .then((response) => {
-          this.graph = response.data
-          this.selectedNodeId = this.startingNode
-          this.connectedLists[0].root = this.getNodeById(this.selectedNodeId)
-          this.connectedLists[0].children = this.childrenOf(this.selectedNodeId)
-        })
-        .catch((error) => {
-          console.error('Error loading graph data:', error)
-        })
-    },
-    fetchGraphData() {
-      return axios.get('./graph.json')
+    initialise() {
+      this.dataService.init().then(() => {
+        this.selectedNodeId = this.startingNode
+        this.connectedLists[0].root = this.dataService.getNodeById(this.selectedNodeId)
+        this.connectedLists[0].children = this.dataService.childrenOf(this.selectedNodeId)
+      }).catch((error) => {
+        console.error('Error loading graph data:', error)
+      })
     },
     selectNode(nodeId, listIndex) {
       // set connected lists
@@ -79,8 +72,8 @@ export default {
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
-          root: this.getNodeById(nodeId),
-          children: this.childrenOf(nodeId)
+          root: this.dataService.getNodeById(nodeId),
+          children: this.dataService.childrenOf(nodeId)
         }
       } else {
         // shift everything left
@@ -90,33 +83,17 @@ export default {
         }
 
         this.connectedLists[this.connectedLists.length - 1] = {
-          root: this.getNodeById(nodeId),
-          children: this.childrenOf(nodeId)
+          root: this.dataService.getNodeById(nodeId),
+          children: this.dataService.childrenOf(nodeId)
         }
-
       }
 
       if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
-        this.nodeHistory.push(this.getNodeById(nodeId));
+        this.nodeHistory.push(this.dataService.getNodeById(nodeId));
       }
       this.selectedNodeId = nodeId
-    },
-    childrenOf(nodeId) {
-      if (!this.graph) {
-        return []
-      }
-
-      return this.graph.edges
-        .filter((edge) => edge.source === nodeId)
-        .map((edge) => this.graph.nodes.find((node) => node.id === edge.target))
-    },
-    getNodeById(nodeId) {
-      if (!this.graph) {
-        return {}
-      }
-
-      return this.graph.nodes.find((n) => n.id === nodeId) || {}
     }
+
   }
 }
 </script>
