@@ -10,7 +10,7 @@ describe('GraphBrowser', () => {
 
   beforeEach(async () => {
     wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 3 } })
-    wrapper.vm.fetchGraphData = () => Promise.resolve({ data: testGraph });
+    wrapper.vm.dataService = {fetchGraphData: () => Promise.resolve({ data: testGraph })};
     await wrapper.vm.$nextTick();
     wrapper.vm.loadGraphData()
     await wrapper.vm.$nextTick();

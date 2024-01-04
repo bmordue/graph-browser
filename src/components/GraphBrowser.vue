@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import DataService from './DataService'
 import ConnectedList from './ConnectedList.vue'
 import NodeDetails from './NodeDetails.vue'
 import NodeHistory from './NodeHistory.vue'
@@ -31,13 +31,13 @@ export default {
     },
   },
   data() {
-    // const lists = new Array(this.props.containerCount).fill({}); // TODO: b0rked
     return {
       graph: null,
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: [{}, {}, {}],
-      nodeHistory: []
+      connectedLists: [{}, {}, {}],//new Array(this.containerCount).fill({}),
+      nodeHistory: [],
+      dataService: DataService
     }
   },
   computed: {
@@ -53,22 +53,19 @@ export default {
   },
   created() {
     this.loadGraphData()
+
   },
   methods: {
     loadGraphData() {
-      this.fetchGraphData()
-        .then((response) => {
-          this.graph = response.data
-          this.selectedNodeId = this.startingNode
-          this.connectedLists[0].root = this.getNodeById(this.selectedNodeId)
-          this.connectedLists[0].children = this.childrenOf(this.selectedNodeId)
-        })
+      this.dataService.fetchGraphData().then((response) => {
+        this.graph = response.data
+        this.selectedNodeId = this.startingNode
+        this.connectedLists[0].root = this.getNodeById(this.selectedNodeId)
+        this.connectedLists[0].children = this.childrenOf(this.selectedNodeId)
+      })
         .catch((error) => {
           console.error('Error loading graph data:', error)
         })
-    },
-    fetchGraphData() {
-      return axios.get('./graph.json')
     },
     selectNode(nodeId, listIndex) {
       // set connected lists
