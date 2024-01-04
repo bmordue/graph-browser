@@ -99,3 +99,31 @@ describe('GraphBrowser', () => {
     ])
   })
 })
+
+describe('GraphBrowser with different number of lists', () => {
+  it('renders properly with two lists', async () => {
+    let wrapper
+    const testDataService = new DataService()
+    testDataService.graph = testGraph
+
+    wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 2 } })
+    wrapper.vm.dataService = testDataService
+    await wrapper.vm.$nextTick()
+    wrapper.vm.initialise()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toContain('History[empty][empty]Details')
+  })
+
+  it('renders properly with four lists', async () => {
+    let wrapper
+    const testDataService = new DataService()
+    testDataService.graph = testGraph
+
+    wrapper = mount(GraphBrowser, { props: { startingNode: 1, containerCount: 4 } })
+    wrapper.vm.dataService = testDataService
+    await wrapper.vm.$nextTick()
+    wrapper.vm.initialise()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toContain('History[empty][empty][empty][empty]Details')
+  })
+})
