@@ -66,9 +66,7 @@ export default {
     selectNode(nodeId, listIndex) {
       // set connected lists
       if (listIndex < this.connectedLists.length - 1) {
-        console.log('no shift')
         for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
-          console.log(`clear ${this.connectedLists[i].name}`)
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
@@ -77,13 +75,11 @@ export default {
         }
       } else {
         // shift everything left
-        console.log('shift left')
         for (let i = 0; i < this.connectedLists.length - 1; i++) {
           this.connectedLists[i] = this.connectedLists[i + 1]
         }
 
         this.connectedLists[this.connectedLists.length - 1] = {
-          // TODO: combine following two lines into a single "dataService.getNodeAndChildren(nodeId) call"
           root: this.dataService.getNodeById(nodeId),
           children: this.dataService.childrenOf(nodeId)
         }
@@ -117,9 +113,10 @@ export default {
           this.connectedLists[i] = {}
         }
       }
+      // console.log(`selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.dataService.getNodeById(this.selectedNodeId), null, 4)}\n`)
+      console.log(`before update - selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.selectedNode, null, 4)}\n`)
       this.selectedNodeId = nodeId
-
-
+      console.log(`after update - selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.selectedNode, null, 4)}\n`)
     }
 
   }
