@@ -14,7 +14,7 @@ describe('GraphBrowser', () => {
       wrapper = mountComponent(GraphBrowser, { props: { startingNode: 1, containerCount } });
       wrapper.vm.fetchGraphData = jest.fn().mockResolvedValue({ data: testGraph });
       await wrapper.vm.$nextTick();
-      wrapper.vm.loadGraphData();
+      await wrapper.vm.$nextTick();
       await wrapper.vm.$nextTick();
       describe(`with ${containerCount} ConnectedList components`, () => {
         beforeEach(async () => {
