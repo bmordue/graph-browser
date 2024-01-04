@@ -113,10 +113,8 @@ export default {
           this.connectedLists[i] = {}
         }
       }
-      // console.log(`selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.dataService.getNodeById(this.selectedNodeId), null, 4)}\n`)
-      console.log(`before update - selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.selectedNode, null, 4)}\n`)
+
       this.selectedNodeId = nodeId
-      console.log(`after update - selectedNodeId: ${this.selectedNodeId}: \n${JSON.stringify(this.selectedNode, null, 4)}\n`)
     }
 
   }
