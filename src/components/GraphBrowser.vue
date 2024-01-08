@@ -1,10 +1,10 @@
 <template>
   <div class="grid-container">
-    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;" @history-item-selected="selectHistoryItem"></NodeHistory>
-    <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
-      :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
+    <NodeHistory :nodes="nodeHistory" @history-item-selected="selectHistoryItem"></NodeHistory>
+    <ConnectedList v-for="(destList, i) in   connectedLists  " :key="i" :index="i" :children="destList.children || []"
+      :root="destList.root || {}" @node-selected="selectNode">
     </ConnectedList>
-    <NodeDetails :node="selectedNode" :style="{ gridColumn: connectedLists.length + 2 }"> </NodeDetails>
+    <NodeDetails :node="selectedNode"> </NodeDetails>
   </div>
 </template>
 
@@ -123,13 +123,6 @@ export default {
 
 <style scoped>
 .grid-container {
-  display: grid;
-  :style="{ gridTemplateColumns: `repeat(${connectedLists.length + 2}, 150px)` }";
-}
-
-@media (max-width: 600px) {
-  .grid-container {
-    grid-template-columns: 150px;
-  }
+  display: flex;
 }
 </style>
