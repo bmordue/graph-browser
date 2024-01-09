@@ -1,5 +1,5 @@
 <template>
-  <div style="border:1px solid blue;">
+  <div style="border:1px solid blue; flex-basis: 200px">
     <h2>History</h2>
     <ol>
       <li v-for=" (node, i) in nodes" :key="node.id" @click="selectHistoryItem(node.id, i)">
