@@ -51,7 +51,7 @@ const app = express();
 
 
 // Custom API endpoint for /api/node/:id
-app.get('/api/node/:id', (req, res) => {
+app.get('/api/node/:id', limiter, (req, res) => {
   const id = req.params.id;
   db.get('SELECT * FROM nodes WHERE id = ?', [id], (err, row) => {
     if (err) {
