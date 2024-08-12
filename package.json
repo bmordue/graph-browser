@@ -16,7 +16,7 @@
     "axios": "^1.6.8",
     "express": "^4.19.2",
     "sqlite3": "^5.1.7",
-    "vue": "^3.4.30"
+    "vue": "^3.4.37"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.3",
