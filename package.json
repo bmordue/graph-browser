@@ -22,7 +22,7 @@
     "@rushstack/eslint-patch": "^1.10.4",
     "@stryker-mutator/core": "^8.2.6",
     "@stryker-mutator/vitest-runner": "^8.6.0",
-    "@vitejs/plugin-vue": "^5.2.0",
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vitest/coverage-istanbul": "^2.1.8",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/test-utils": "^2.4.6",
