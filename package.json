@@ -19,7 +19,7 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.10.4",
+    "@rushstack/eslint-patch": "^1.10.5",
     "@stryker-mutator/core": "^8.2.6",
     "@vitejs/plugin-vue": "^5.2.1",
     "@stryker-mutator/vitest-runner": "^8.7.1",
