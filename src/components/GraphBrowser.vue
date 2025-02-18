@@ -29,6 +29,10 @@ export default {
       type: Number,
       required: true
     },
+    listCount: {
+      type: Number,
+      required: true
+    },
   },
   data() {
     return {
@@ -75,11 +79,11 @@ export default {
         }
       } else {
         // shift everything left
-        for (let i = 0; i < this.connectedLists.length - 1; i++) {
-          this.connectedLists[i] = this.connectedLists[i + 1]
+        for (let i = 0; i < listIndex; i++) {
+          this.connectedLists[i] = this.connectedLists[i + 1];
         }
 
-        this.connectedLists[this.connectedLists.length - 1] = {
+        this.connectedLists[listIndex] = {
           root: this.dataService.getNodeById(nodeId),
           children: this.dataService.childrenOf(nodeId)
         }
