@@ -1,10 +1,10 @@
 <template>
   <div class="grid-container">
-    <NodeHistory :nodes="nodeHistory" style="grid-column: 1;"></NodeHistory>
-    <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
-      :root="destList.root || {}" @node-selected="selectNode" :style="{ gridColumn: i + 2 }">
+    <NodeHistory :nodes="nodeHistory" @history-item-selected="selectHistoryItem"></NodeHistory>
+    <ConnectedList v-for="(destList, i) in   connectedLists  " :key="i" :index="i" :children="destList.children || []"
+      :root="destList.root || {}" @node-selected="selectNode">
     </ConnectedList>
-    <NodeDetails :node="selectedNode" :style="{ gridColumn: connectedLists.length + 2 }"> </NodeDetails>
+    <NodeDetails :node="selectedNode"> </NodeDetails>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
     return {
       selectedNodeId: null,
       selectedListIndex: null,
-      connectedLists: Array.from({ length: this.listCount }, () => ({})),
+      connectedLists: Array.from({ length: this.containerCount }, () => ({})),
       nodeHistory: [],
       dataService: new DataService()
     }
@@ -93,6 +93,32 @@ export default {
         this.nodeHistory.push(this.dataService.getNodeById(nodeId));
       }
       this.selectedNodeId = nodeId
+    },
+
+    selectHistoryItem(nodeId, index) {
+      if (index == this.nodeHistory.length - 1) {
+        return;
+      }
+
+      this.nodeHistory = this.nodeHistory.slice(0, index + 1)
+
+      let offset = this.nodeHistory.length - this.containerCount
+      if (offset < 0) {
+        offset = 0
+      }
+
+      for (let i = 0; i < this.containerCount; i++) {
+        if (this.nodeHistory.length > i + offset) {
+          this.connectedLists[i] = {
+            root: this.nodeHistory[i + offset],
+            children: this.dataService.childrenOf(this.nodeHistory[i + offset].id)
+          }
+        } else {
+          this.connectedLists[i] = {}
+        }
+      }
+
+      this.selectedNodeId = nodeId
     }
 
   }
@@ -101,13 +127,6 @@ export default {
 
 <style scoped>
 .grid-container {
-  display: grid;
-  :style="{ gridTemplateColumns: `repeat(${connectedLists.length + 2}, 1fr)` }";
-}
-
-@media (max-width: 600px) {
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
 }
 </style>

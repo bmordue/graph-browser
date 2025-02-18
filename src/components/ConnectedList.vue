@@ -1,5 +1,5 @@
 <template>
-  <div style="border:1px solid blue;">
+  <div style="border:1px solid blue; flex-basis: 200px">
     <h2><span v-if="root.name">Routes from {{ root.name }}</span><span v-else>[empty]</span></h2>
     <ul>
       <li v-for="node in children" :key="node.id" @click="selectNode(node.id)"

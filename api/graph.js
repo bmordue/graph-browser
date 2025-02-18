@@ -1,5 +1,6 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
+const limiter = require('./rateLimiter');
 
 const PORT = 3000;
 
@@ -50,7 +51,7 @@ const app = express();
 
 
 // Custom API endpoint for /api/node/:id
-app.get('/api/node/:id', (req, res) => {
+app.get('/api/node/:id', limiter, (req, res) => {
   const id = req.params.id;
   db.get('SELECT * FROM nodes WHERE id = ?', [id], (err, row) => {
     if (err) {
@@ -65,7 +66,7 @@ app.get('/api/node/:id', (req, res) => {
 });
 
 // get a list of nodes connected to node with a given id
-app.get('/api/node/:id/children', (req, res) => {
+app.get('/api/node/:id/children', limiter, (req, res) => {
   const id = req.params.id;
   db.all('SELECT * FROM nodes WHERE id IN (SELECT target FROM edges WHERE source = ?)', [id], (err, rows) => {
     if (err) {
