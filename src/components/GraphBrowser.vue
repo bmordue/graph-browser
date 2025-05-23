@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      selectedNodeId: null,
+      selectedNodeId: this.startingNode, // Initialize with startingNode prop
       selectedListIndex: null,
       connectedLists: Array.from({ length: this.containerCount }, () => ({})),
       nodeHistory: [],
@@ -55,17 +55,22 @@ export default {
     }
   },
   created() {
+    // Initialise can now assume selectedNodeId is already set
     this.initialise()
   },
   methods: {
     initialise() {
+      // Data service init is still async (though mocked to resolve immediately in tests)
       this.dataService.init().then(() => {
-        this.selectedNodeId = this.startingNode
-        this.connectedLists[0].root = this.dataService.getNodeById(this.selectedNodeId)
-        this.connectedLists[0].children = this.dataService.childrenOf(this.selectedNodeId)
+        // selectedNodeId is already this.startingNode
+        // Ensure connectedLists are populated based on the already set selectedNodeId
+        if (this.selectedNodeId !== null) { // Check if startingNode was valid
+          this.connectedLists[0].root = this.dataService.getNodeById(this.selectedNodeId);
+          this.connectedLists[0].children = this.dataService.childrenOf(this.selectedNodeId);
+        }
       }).catch((error) => {
-        console.error('Error loading graph data:', error)
-      })
+        console.error('Error loading graph data:', error);
+      });
     },
     selectNode(nodeId, listIndex) {
       // set connected lists
