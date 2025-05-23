@@ -3,32 +3,86 @@
       {
         "id": 1,
         "name": "Paris",
-        "data": { "country": "France" }
+        "data": { 
+          "country": "France",
+          "label": "Paris Label v5",
+          "NS": "Paris.NS.v5",
+          "hash": "PARIS_HASH_V5_1",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       },
       {
         "id": 2,
         "name": "Berlin",
-        "data": { "country": "Germany" }
+        "data": { 
+          "country": "Germany",
+          "label": "Berlin Label v5",
+          "NS": "Berlin.NS.v5",
+          "hash": "BERLIN_HASH_V5_2",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       },
       {
         "id": 3,
         "name": "Rome",
-        "data": { "country": "Italy" }
+        "data": { 
+          "country": "Italy",
+          "label": "Rome Label v5",
+          "NS": "Rome.NS.v5",
+          "hash": "ROME_HASH_V5_3",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       },
       {
         "id": 4,
         "name": "Madrid",
-        "data": { "country": "Spain" }
+        "data": { 
+          "country": "Spain",
+          "label": "Madrid Label v5",
+          "NS": "Madrid.NS.v5",
+          "hash": "MADRID_HASH_V5_4",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       },
       {
         "id": 5,
         "name": "Vienna",
-        "data": { "country": "Austria" }
+        "data": { 
+          "country": "Austria",
+          "label": "Vienna Label v5",
+          "NS": "Vienna.NS.v5",
+          "hash": "VIENNA_HASH_V5_5",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       },
       {
         "id": 6,
         "name": "Amsterdam",
-        "data": { "country": "The Netherlands" }
+        "data": { 
+          "country": "The Netherlands",
+          "label": "Amsterdam Label v5",
+          "NS": "Amsterdam.NS.v5",
+          "hash": "AMSTERDAM_HASH_V5_6",
+          "constituents": [],
+          "updated": "2024-03-18T10:00:00Z",
+          "created": "2024-03-18T09:00:00Z",
+          "user": "test_user_v5"
+        }
       }
     ],
     "edges": [
@@ -118,4 +172,3 @@
       }
     ]
   }
-  
