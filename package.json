@@ -14,15 +14,15 @@
   },
   "dependencies": {
     "axios": "^1.8.4",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "glob": "^11.0.2",
     "sqlite3": "^5.1.7",
     "vue": "^3.5.16"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.5",
-    "@stryker-mutator/core": "^8.7.1",
-    "@stryker-mutator/vitest-runner": "^8.7.1",
+    "@stryker-mutator/core": "^9.0.1",
+    "@stryker-mutator/vitest-runner": "^9.0.1",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitest/coverage-istanbul": "^3.0.9",
     "@vue/eslint-config-prettier": "^10.2.0",
