@@ -24,7 +24,7 @@
     "@stryker-mutator/core": "^9.0.1",
     "@stryker-mutator/vitest-runner": "^9.0.1",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vitest/coverage-istanbul": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.2.3",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.29.0",
