@@ -7,48 +7,8 @@ const PORT = 3000;
 // Create a database connection
 const db = new sqlite3.Database('trains.db');
 
-
-// Define the resolvers
-const root = {
-  getNode: ({ id }) => {
-    return new Promise((resolve, reject) => {
-      db.get('SELECT * FROM nodes WHERE id = ?', [id], (err, row) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(row);
-        }
-      });
-    });
-  },
-  getNodes: () => {
-    return new Promise((resolve, reject) => {
-      db.all('SELECT * FROM nodes', (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  },
-  getEdges: () => {
-    return new Promise((resolve, reject) => {
-      db.all('SELECT * FROM edges', (err, rows) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
-  },
-};
-
 // Create the Express app
 const app = express();
-
-
 
 // Custom API endpoint for /api/node/:id
 app.get('/api/node/:id', limiter, (req, res) => {
