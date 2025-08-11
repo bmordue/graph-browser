@@ -1,11 +1,13 @@
 {
-  "builds": [
+  "functions": {
+    "api/graph.js": {
+      "memory": 1024
+    }
+  },
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "docs"
-      }
+      "source": "/api/(.*)",
+      "destination": "/api/graph"
     }
   ]
 }
