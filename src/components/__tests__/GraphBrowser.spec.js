@@ -8,27 +8,30 @@ import testGraphData from './graph.fixture.json'; // Import the graph data
 vi.mock('../DataService', () => {
   // These functions will be created each time the mock factory is evaluated by Vitest.
   // They are effectively "fresh" for each test file execution context.
-  const mockInit = vi.fn(() => Promise.resolve());
+  const mockGetInitialNode = vi.fn((id) => {
+    const node = testGraphData.nodes.find(n => n.id === id);
+    return Promise.resolve(node || {});
+  });
   const mockGetNodeById = vi.fn((id) => {
-    return testGraphData.nodes.find(n => n.id === id) || {};
+    const node = testGraphData.nodes.find(n => n.id === id);
+    return Promise.resolve(node || {});
   });
   const mockChildrenOf = vi.fn((nodeId) => {
-    return testGraphData.edges
+    const children = testGraphData.edges
       .filter((edge) => edge.source === nodeId)
       .map((edge) => testGraphData.nodes.find((node) => node.id === edge.target) || {});
+    return Promise.resolve(children);
   });
 
   // This is the mock constructor for DataService
   const MockedDataServiceConstructor = vi.fn().mockImplementation(() => {
     // This object is what `new DataService()` will produce
     return {
-      graph: testGraphData, // Graph data is directly assigned
-      init: mockInit,
+      getInitialNode: mockGetInitialNode,
       getNodeById: mockGetNodeById,
       childrenOf: mockChildrenOf,
       // Store the mock functions on the instance if we need to access them from the test
-      // e.g. wrapper.vm.dataService.init.mockClear() - though clearing via module-level vars is also an option
-      _mocks: { mockInit, mockGetNodeById, mockChildrenOf }
+      _mocks: { mockGetInitialNode, mockGetNodeById, mockChildrenOf }
     };
   });
 
@@ -40,33 +43,16 @@ describe('GraphBrowser', () => {
   const startingNode = 1;
 
   const mountComponent = async (containerCount) => {
-    // Access the mocks through the instance if needed, or clear them if they were module-scoped
-    // For this setup, the mocks are created fresh inside the factory for each test run,
-    // but the *same mock functions* (mockInit, mockGetNodeById, mockChildrenOf within the factory scope)
-    // are reused by each instance created by MockedDataServiceConstructor within a single test file run.
-    // So, we need to clear them if their state (e.g., call counts) should not leak between tests.
-    // To do this, we need access to them. One way is to re-import the mocked DataService.
-    // Or, if we attach them to the instance as done with `_mocks`.
-    
-    // Let's try clearing via the instance if possible after mount.
-    // This part is tricky as the mock functions are defined inside vi.mock's factory.
-    // For robust clearing, it's often easier to re-import the mocked module and clear its functions.
-    // However, for now, let's assume Vitest's test isolation handles some of this,
-    // or we can clear them via an instance if GraphBrowser exposes dataService.
-
     wrapper = mount(GraphBrowser, {
       props: {
         startingNode,
         containerCount,
-        listCount: containerCount, // Added missing prop
       },
     });
     
     // Clear mocks on the specific instance used by the component
     if (wrapper.vm.dataService && wrapper.vm.dataService._mocks) {
-      wrapper.vm.dataService._mocks.mockInit.mockClear();
-      wrapper.vm.dataService._mocks.mockGetNodeById.mockClear();
-      wrapper.vm.dataService._mocks.mockChildrenOf.mockClear();
+        Object.values(wrapper.vm.dataService._mocks).forEach(mockFn => mockFn.mockClear());
     }
     
     await wrapper.vm.$nextTick();
@@ -86,7 +72,7 @@ describe('GraphBrowser', () => {
       it('renders properly', () => {
         // Initial state: First list shows startingNode and its children. Other lists are empty. NodeDetails shows startingNode.
         const startingNodeData = testGraphData.nodes.find(n => n.id === startingNode);
-        let expectedText = `HistoryRoutes from ${startingNodeData.name}`;
+        let expectedText = `History${startingNodeData.name}Routes from ${startingNodeData.name}`;
         
         // Children of the starting node (Paris) are Berlin and Rome.
         // These will appear in the first ConnectedList.
@@ -115,59 +101,50 @@ describe('GraphBrowser', () => {
     });
 
     it('updates nodeHistory correctly when a node in the highest index list is clicked', async () => {
-      // const paris = testGraphData.nodes.find(n => n.id === 1); // Not added to history unless clicked
+      const paris = testGraphData.nodes.find(n => n.id === 1);
       const berlin = testGraphData.nodes.find(n => n.id === 2);
-      const frankfurt = testGraphData.nodes.find(n => n.id === 4); // Child of Berlin in testGraph.fixture.json
-      const hamburg = testGraphData.nodes.find(n => n.id === 6); // Child of Frankfurt in testGraph.fixture.json
+      const frankfurt = testGraphData.nodes.find(n => n.id === 4);
+      const hamburg = testGraphData.nodes.find(n => n.id === 6);
 
-      // Click Berlin (in list 0, child of Paris)
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).findAll('li').find(li => li.text() === berlin.name).trigger('click');
-      await wrapper.vm.$nextTick(); 
-      await wrapper.vm.$nextTick(); 
-
-      // Click Frankfurt (in list 1, child of Berlin)
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(1).findAll('li').find(li => li.text() === frankfurt.name).trigger('click');
-      await wrapper.vm.$nextTick();
+      // Click Berlin
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).vm.$emit('node-selected', berlin.id, 0);
       await wrapper.vm.$nextTick();
       
-      // Click Hamburg (in list 2, child of Frankfurt)
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(2).findAll('li').find(li => li.text() === hamburg.name).trigger('click');
-      await wrapper.vm.$nextTick();
+      // Click Frankfurt
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(1).vm.$emit('node-selected', frankfurt.id, 1);
       await wrapper.vm.$nextTick();
 
-      // History should only contain clicked nodes
-      expect(wrapper.vm.nodeHistory).toEqual([berlin, frankfurt, hamburg]);
+      // Click Hamburg
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(2).vm.$emit('node-selected', hamburg.id, 2);
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.nodeHistory).toEqual([paris, berlin, frankfurt, hamburg]);
     });
 
     it('updates nodeHistory correctly when a node in a lower index list is clicked', async () => {
-      // const paris = testGraphData.nodes.find(n => n.id === startingNode); // Not added to history unless clicked
+      const paris = testGraphData.nodes.find(n => n.id === startingNode);
       const berlin = testGraphData.nodes.find(n => n.id === 2);
       
-      // Click Berlin (in list 0, child of Paris)
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).findAll('li').find(li => li.text() === berlin.name).trigger('click');
-      await wrapper.vm.$nextTick();
+      // Click Berlin
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).vm.$emit('node-selected', berlin.id, 0);
       await wrapper.vm.$nextTick();
 
-      // History should only contain clicked Berlin
-      expect(wrapper.vm.nodeHistory).toEqual([berlin]);
+      expect(wrapper.vm.nodeHistory).toEqual([paris, berlin]);
     });
 
     it('updates nodeHistory correctly when the same node is clicked multiple times', async () => {
-      // const paris = testGraphData.nodes.find(n => n.id === startingNode); // Not added to history
+      const paris = testGraphData.nodes.find(n => n.id === startingNode);
       const berlin = testGraphData.nodes.find(n => n.id === 2);
 
       // Click Berlin
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).findAll('li').find(li => li.text() === berlin.name).trigger('click');
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).vm.$emit('node-selected', berlin.id, 0);
       await wrapper.vm.$nextTick();
-      await wrapper.vm.$nextTick();
-      expect(wrapper.vm.nodeHistory).toEqual([berlin]); // History: [Berlin]
+      expect(wrapper.vm.nodeHistory).toEqual([paris, berlin]);
       
       // Click Berlin again
-      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).findAll('li').find(li => li.text() === berlin.name).trigger('click');
+      await wrapper.findAllComponents({ name: 'ConnectedList' }).at(0).vm.$emit('node-selected', berlin.id, 0);
       await wrapper.vm.$nextTick();
-      await wrapper.vm.$nextTick();
-      // History should still be [Berlin] because component logic prevents adding same consecutive node
-      expect(wrapper.vm.nodeHistory).toEqual([berlin]);
+      expect(wrapper.vm.nodeHistory).toEqual([paris, berlin]);
     });
   });
 });
