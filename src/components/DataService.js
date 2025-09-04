@@ -1,29 +1,26 @@
-import axios from 'axios'
+import axios from 'axios';
+
+const API_BASE_URL = '/api';
 
 export default class DataService {
-  graph = null
-
-  async init() {
-    if (!this.graph) {
-      this.graph = (await axios.get('./graph.json')).data
-    }
+  async getInitialNode(startingNode) {
+    const response = await axios.get(`${API_BASE_URL}/node/${startingNode}`);
+    return response.data;
   }
 
-  childrenOf(nodeId) {
-    if (!this.graph) {
-      return []
+  async childrenOf(nodeId) {
+    if (!nodeId) {
+      return [];
     }
-
-    return this.graph.edges
-      .filter((edge) => edge.source === nodeId)
-      .map((edge) => this.graph.nodes.find((node) => node.id === edge.target))
+    const response = await axios.get(`${API_BASE_URL}/node/${nodeId}/children`);
+    return response.data;
   }
 
-  getNodeById(nodeId) {
-    if (!this.graph) {
-      return {}
+  async getNodeById(nodeId) {
+    if (!nodeId) {
+      return {};
     }
-
-    return this.graph.nodes.find((n) => n.id === nodeId) || {}
+    const response = await axios.get(`${API_BASE_URL}/node/${nodeId}`);
+    return response.data;
   }
 }
