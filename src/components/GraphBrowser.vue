@@ -1,7 +1,7 @@
 <template>
   <div class="grid-container">
     <NodeHistory :nodes="nodeHistory" @history-item-selected="selectHistoryItem"></NodeHistory>
-    <ConnectedList v-for="(destList, i) in   connectedLists  " :key="i" :index="i" :children="destList.children || []"
+    <ConnectedList v-for="(destList, i) in connectedLists" :key="i" :index="i" :children="destList.children || []"
       :root="destList.root || {}" @node-selected="selectNode">
     </ConnectedList>
     <NodeDetails :node="selectedNode"> </NodeDetails>
@@ -29,78 +29,63 @@ export default {
       type: Number,
       required: true
     },
-    listCount: {
-      type: Number,
-      required: true
-    },
   },
   data() {
     return {
-      selectedNodeId: this.startingNode, // Initialize with startingNode prop
-      selectedListIndex: null,
+      selectedNode: {},
       connectedLists: Array.from({ length: this.containerCount }, () => ({})),
       nodeHistory: [],
       dataService: new DataService()
     }
   },
-  computed: {
-    selectedNode() {
-      return this.dataService.getNodeById(this.selectedNodeId)
-    },
-    getNode() {
-      return this.dataService.getNodeById(this.selectedNodeId) || { name: 'unknown' }
-    },
-    getChildren() {
-      return this.dataService.childrenOf(this.selectedNodeId)
-    }
-  },
-  created() {
-    // Initialise can now assume selectedNodeId is already set
-    this.initialise()
+  async created() {
+    await this.initialise();
   },
   methods: {
-    initialise() {
-      // Data service init is still async (though mocked to resolve immediately in tests)
-      this.dataService.init().then(() => {
-        // selectedNodeId is already this.startingNode
-        // Ensure connectedLists are populated based on the already set selectedNodeId
-        if (this.selectedNodeId !== null) { // Check if startingNode was valid
-          this.connectedLists[0].root = this.dataService.getNodeById(this.selectedNodeId);
-          this.connectedLists[0].children = this.dataService.childrenOf(this.selectedNodeId);
-        }
-      }).catch((error) => {
+    async initialise() {
+      try {
+        const startingNode = await this.dataService.getInitialNode(this.startingNode);
+        this.selectedNode = startingNode;
+        this.nodeHistory.push(startingNode);
+        const children = await this.dataService.childrenOf(startingNode.id);
+        this.connectedLists[0] = {
+          root: startingNode,
+          children: children,
+        };
+      } catch (error) {
         console.error('Error loading graph data:', error);
-      });
+      }
     },
-    selectNode(nodeId, listIndex) {
-      // set connected lists
+    async selectNode(nodeId, listIndex) {
+      const node = await this.dataService.getNodeById(nodeId);
+      const children = await this.dataService.childrenOf(nodeId);
+
       if (listIndex < this.connectedLists.length - 1) {
         for (let i = listIndex + 1; i < this.connectedLists.length; i++) {
           this.connectedLists[i] = {};
         }
         this.connectedLists[listIndex + 1] = {
-          root: this.dataService.getNodeById(nodeId),
-          children: this.dataService.childrenOf(nodeId)
+          root: node,
+          children: children
         }
       } else {
-        // shift everything left
         for (let i = 0; i < listIndex; i++) {
           this.connectedLists[i] = this.connectedLists[i + 1];
         }
 
         this.connectedLists[listIndex] = {
-          root: this.dataService.getNodeById(nodeId),
-          children: this.dataService.childrenOf(nodeId)
+          root: node,
+          children: children
         }
       }
 
       if (this.nodeHistory.length == 0 || this.nodeHistory[this.nodeHistory.length - 1].id != nodeId) {
-        this.nodeHistory.push(this.dataService.getNodeById(nodeId));
+        this.nodeHistory.push(node);
       }
-      this.selectedNodeId = nodeId
+      this.selectedNode = node;
     },
 
-    selectHistoryItem(nodeId, index) {
+    async selectHistoryItem(nodeId, index) {
       if (index == this.nodeHistory.length - 1) {
         return;
       }
@@ -114,18 +99,19 @@ export default {
 
       for (let i = 0; i < this.containerCount; i++) {
         if (this.nodeHistory.length > i + offset) {
+          const node = this.nodeHistory[i + offset];
+          const children = await this.dataService.childrenOf(node.id);
           this.connectedLists[i] = {
-            root: this.nodeHistory[i + offset],
-            children: this.dataService.childrenOf(this.nodeHistory[i + offset].id)
+            root: node,
+            children: children
           }
         } else {
           this.connectedLists[i] = {}
         }
       }
 
-      this.selectedNodeId = nodeId
+      this.selectedNode = this.nodeHistory[this.nodeHistory.length - 1];
     }
-
   }
 }
 </script>
