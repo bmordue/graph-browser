@@ -24,7 +24,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.12.0",
     "@stryker-mutator/core": "^9.0.1",
-    "@stryker-mutator/vitest-runner": "^9.0.1",
+    "@stryker-mutator/vitest-runner": "^9.1.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vue/eslint-config-prettier": "^10.2.0",
