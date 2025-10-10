@@ -277,9 +277,9 @@ export class NodeBuilder {
 - Missing deployment architecture
 
 **Recommendation:**
-Create `/docs` directory structure:
+Create `/documentation` directory structure:
 ```
-docs/
+documentation/
 ├── architecture/
 │   ├── decisions/          # ADRs
 │   │   ├── 0001-use-vue3.md

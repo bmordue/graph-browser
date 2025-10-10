@@ -14,10 +14,10 @@ For a comprehensive architecture overview and improvement recommendations, see [
 ### Architecture Documentation
 
 - [Architecture Assessment & Recommendations](ARCHITECTURE.md) - Comprehensive analysis and improvement suggestions
-- [Architecture Decision Records (ADRs)](docs/architecture/decisions/) - Historical architectural decisions
-  - [ADR-0001: Use Vue 3 for Frontend](docs/architecture/decisions/0001-use-vue3-for-frontend.md)
-  - [ADR-0002: Use SQLite for Data Storage](docs/architecture/decisions/0002-use-sqlite-for-data-storage.md)
-  - [ADR-0003: Use Vitest for Testing](docs/architecture/decisions/0003-use-vitest-for-testing.md)
+- [Architecture Decision Records (ADRs)](documentation/architecture/decisions/) - Historical architectural decisions
+  - [ADR-0001: Use Vue 3 for Frontend](documentation/architecture/decisions/0001-use-vue3-for-frontend.md)
+  - [ADR-0002: Use SQLite for Data Storage](documentation/architecture/decisions/0002-use-sqlite-for-data-storage.md)
+  - [ADR-0003: Use Vitest for Testing](documentation/architecture/decisions/0003-use-vitest-for-testing.md)
 
 ## Project Setup
 
