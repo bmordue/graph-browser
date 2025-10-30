@@ -9,6 +9,16 @@ The application is composed of two main parts:
 -   **Frontend**: A Vue 3 single-page application built with Vite. The frontend code is located in the `src` directory.
 -   **Backend**: A Node.js server built with Express that provides a RESTful API to access the graph data from a SQLite database. The backend code is located in the `api` directory.
 
+For a comprehensive architecture overview and improvement recommendations, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+### Architecture Documentation
+
+- [Architecture Assessment & Recommendations](ARCHITECTURE.md) - Comprehensive analysis and improvement suggestions
+- [Architecture Decision Records (ADRs)](documentation/architecture/decisions/) - Historical architectural decisions
+  - [ADR-0001: Use Vue 3 for Frontend](documentation/architecture/decisions/0001-use-vue3-for-frontend.md)
+  - [ADR-0002: Use SQLite for Data Storage](documentation/architecture/decisions/0002-use-sqlite-for-data-storage.md)
+  - [ADR-0003: Use Vitest for Testing](documentation/architecture/decisions/0003-use-vitest-for-testing.md)
+
 ## Project Setup
 
 ### Prerequisites
@@ -79,3 +89,20 @@ To lint the code, run:
 ```sh
 npm run lint
 ```
+
+## Contributing
+
+We welcome contributions! Please see our architecture documentation for guidelines:
+
+- [Architecture Assessment](ARCHITECTURE.md) - Review recommendations for areas to contribute
+- [Architecture Decision Records](docs/architecture/decisions/) - Understand architectural decisions
+
+When contributing:
+1. Follow the existing code style and conventions
+2. Write tests for new functionality
+3. Update documentation as needed
+4. Consider creating an ADR for significant architectural decisions
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
