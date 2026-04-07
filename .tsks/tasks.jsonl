@@ -8,4 +8,4 @@
 {"id":"8","title":"Review and update ESLint configuration for best practices","status":"todo","created_at":"2026-04-07T15:04:32.744020372Z","doc_hash":"2c8836b8f2ccf41674d5c6cac6a43289d784d4748482a93031ec787c03a1f7e6"}
 {"id":"9","title":"Set up automated visual regression testing","status":"todo","created_at":"2026-04-07T15:04:32.75336866Z","doc_hash":"33c5273c0f21a8823976947db1930647bb7ea4da835c44d34abde80aa19284d7"}
 {"id":"10","title":"Add performance monitoring and metrics collection","status":"todo","created_at":"2026-04-07T15:04:32.761756787Z","doc_hash":"65ce64f57b3921e4daabc4a61b9441a7d1c688b730f3e3640ccf2b7a2ed01bc5"}
-{"id":"11","title":"description","status":"todo","created_at":"2026-04-07T15:09:47.311723349Z","doc_hash":"a7e154d636b3ee6a2c8a13a4b41048e99b25b5e6d5c94634ece2cbcba5a78111"}
+{"id":"11","title":"description","status":"done","created_at":"2026-04-07T15:09:47.311723349Z","doc_hash":"a7e154d636b3ee6a2c8a13a4b41048e99b25b5e6d5c94634ece2cbcba5a78111"}
