@@ -1,0 +1,10 @@
+{"id":"1","title":"Set up CI/CD pipeline for automated testing and deployment","status":"todo","created_at":"2026-04-07T15:04:26.772833625Z","doc_hash":"a37022ef4f0c0c932d8201b42e9585c8a178c1104b51f4b439dac729382aab72"}
+{"id":"2","title":"Add comprehensive unit tests for all Vue components","status":"todo","created_at":"2026-04-07T15:04:26.781837205Z","doc_hash":"a3594b2f7a4b011edcf9243f01d8894716b42f13a3dfab225a3249c5feabb480"}
+{"id":"3","title":"Implement accessibility improvements (ARIA labels, keyboard navigation)","status":"todo","created_at":"2026-04-07T15:04:26.790187672Z","doc_hash":"cf0e79450c147463706ca9b992fb0c46a0ffe90e19977daf7dde869d2067112b"}
+{"id":"4","title":"Optimize build performance and bundle size","status":"todo","created_at":"2026-04-07T15:04:26.798267338Z","doc_hash":"ab810f267a7e5dfeb187b6374a12735999fe03dbb1c7479102630eca24708730"}
+{"id":"5","title":"Add integration tests for critical user flows","status":"todo","created_at":"2026-04-07T15:04:26.806143733Z","doc_hash":"506f0825323a807774ca7176edb81670672bbda147bf5f874ff4b32e6e4fceb6"}
+{"id":"6","title":"Document tssk usage in README or CONTRIBUTING","status":"todo","created_at":"2026-04-07T15:04:32.725330407Z","doc_hash":"05cb569d525af862a6a3096a0825559937e43750db5d665614c972150e207cd6"}
+{"id":"7","title":"Add tssk commands to developer onboarding guide","status":"todo","created_at":"2026-04-07T15:04:32.735253485Z","doc_hash":"134be6f27834e3111c38a12433170171d5873ecac9e49b258ddd957dd436b940"}
+{"id":"8","title":"Review and update ESLint configuration for best practices","status":"todo","created_at":"2026-04-07T15:04:32.744020372Z","doc_hash":"2c8836b8f2ccf41674d5c6cac6a43289d784d4748482a93031ec787c03a1f7e6"}
+{"id":"9","title":"Set up automated visual regression testing","status":"todo","created_at":"2026-04-07T15:04:32.75336866Z","doc_hash":"33c5273c0f21a8823976947db1930647bb7ea4da835c44d34abde80aa19284d7"}
+{"id":"10","title":"Add performance monitoring and metrics collection","status":"todo","created_at":"2026-04-07T15:04:32.761756787Z","doc_hash":"65ce64f57b3921e4daabc4a61b9441a7d1c688b730f3e3640ccf2b7a2ed01bc5"}
