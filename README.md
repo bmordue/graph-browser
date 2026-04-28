@@ -90,6 +90,50 @@ To lint the code, run:
 npm run lint
 ```
 
+## Task Management
+
+This project uses [tssk](https://github.com/bmordue/tssk) for task management. Tasks are tracked as JSONL metadata and markdown detail files in the repository.
+
+### Quick Start
+
+```sh
+# View all tasks
+tssk list
+
+# View tasks by status
+tssk list --status todo
+tssk list --status in-progress
+tssk list --status done
+
+# Add a new task
+tssk add -t "Your task description"
+
+# Show task details
+tssk show <ID>
+
+# Update task status
+tssk status <ID> in-progress
+tssk status <ID> done
+
+# Manage dependencies
+tssk deps add <dependent-task> <dependency-task>
+tssk deps remove <dependent-task> <dependency-task>
+tssk deps check <task-id>
+```
+
+### Task Statuses
+
+- `todo` - Ready to work on
+- `in-progress` - Currently being worked on
+- `done` - Completed
+- `blocked` - Blocked by dependencies or other issues
+
+### Storage
+
+- `.tssk.json` - Configuration file
+- `tasks.jsonl` - Task metadata (one JSON record per line)
+- `docs/` - Markdown detail files for tasks with additional context
+
 ## Contributing
 
 We welcome contributions! Please see our architecture documentation for guidelines:

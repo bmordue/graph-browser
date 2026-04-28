@@ -24,7 +24,8 @@ vi.mock('../DataService', () => {
   });
 
   // This is the mock constructor for DataService
-  const MockedDataServiceConstructor = vi.fn().mockImplementation(() => {
+  // Must use 'function' (not arrow function) so it can be called with 'new' (Vitest 4.x requirement)
+  const MockedDataServiceConstructor = vi.fn().mockImplementation(function() {
     // This object is what `new DataService()` will produce
     return {
       getInitialNode: mockGetInitialNode,
