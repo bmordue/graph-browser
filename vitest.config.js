@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { mergeConfig } from 'vite'
 import { configDefaults, defineConfig } from 'vitest/config'
-import viteConfig from './vite.config'
+import viteConfig from './vite.config.js'
 
 export default mergeConfig(
   viteConfig,
@@ -10,11 +10,8 @@ export default mergeConfig(
       environment: 'jsdom',
       exclude: [...configDefaults.exclude, 'e2e/*'],
       root: fileURLToPath(new URL('./', import.meta.url)),
-      transformMode: {
-        web: [/\.[jt]sx$/]
-      },
       coverage: {
-        include: 'src',
+        include: ['src'],
         reporter: ['lcov']
       }
     }
