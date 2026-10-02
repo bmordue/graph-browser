@@ -10,7 +10,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "test:unit": "vitest",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -22,7 +23,7 @@
     "vue": "^3.5.42"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.14.1",
+    "@eslint/js": "^10.0.1",
     "@stryker-mutator/core": "^10.0.0",
     "@stryker-mutator/vitest-runner": "^10.0.0",
     "@vitejs/plugin-vue": "^6.0.8",
@@ -31,6 +32,7 @@
     "@vue/test-utils": "^2.5.0",
     "eslint": "^10.10.0",
     "eslint-plugin-vue": "^10.11.0",
+    "globals": "^17.13.0",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
     "supertest": "^7.2.2",
